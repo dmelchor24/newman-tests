@@ -40,7 +40,10 @@ htmlcov/
 
 # Results
 results/
-docs/
+
+# Docs - ignorar contenido generado pero mantener la carpeta
+docs/*
+!docs/.gitkeep
 
 # OS
 .DS_Store
