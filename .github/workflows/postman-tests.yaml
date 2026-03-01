@@ -48,15 +48,6 @@ jobs:
         TIMESTAMP=$(cat docs/.last_run.txt)
         echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
     
-    - name: Publicar resultados en GitHub Pages
-      if: github.ref == 'refs/heads/main'
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
-        publish_branch: gh-pages
-        keep_files: false
-    
     - name: Subir reporte como artefacto
       if: always()
       uses: actions/upload-artifact@v4
@@ -64,3 +55,18 @@ jobs:
         name: run_${{ steps.get_timestamp.outputs.timestamp }}
         path: results/run_${{ steps.get_timestamp.outputs.timestamp }}/
         retention-days: 30
+    
+    - name: 💾 Commit report to repository
+      if: success()
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+
+        git add docs/
+
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update JMeter report - run ${{ github.run_number }}"
+          git push
+        fi
