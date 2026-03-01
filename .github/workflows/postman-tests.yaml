@@ -42,6 +42,12 @@ jobs:
         BASE_URL: ${{ github.event.inputs.base_url || 'http://localhost:8000' }}
       run: python scripts/execute-tests.py --base-url=$BASE_URL
     
+    - name: Obtener timestamp de la ejecución
+      id: get_timestamp
+      run: |
+        TIMESTAMP=$(cat docs/.last_run.txt)
+        echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+    
     - name: Publicar resultados en GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
@@ -49,11 +55,12 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs
         publish_branch: gh-pages
+        keep_files: false
     
     - name: Subir reporte como artefacto
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-report
+        name: run_${{ steps.get_timestamp.outputs.timestamp }}
         path: results/
         retention-days: 30
