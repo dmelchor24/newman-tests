@@ -57,16 +57,21 @@ jobs:
         retention-days: 30
     
     - name: 💾 Commit report to repository
-      if: success()
+      if: always()
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
 
         git add docs/
+        git add results/
 
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Update JMeter report - run ${{ github.run_number }}"
+          git commit -m "Update Newman report - run ${{ github.run_number }}"
           git push
         fi
+
+    - name: 🧹 Limpiar Docker
+      if: always()
+      run: docker system prune -f
