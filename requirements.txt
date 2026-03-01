@@ -1,0 +1,22 @@
+# Instalación de newman
+npm install -g newman
+
+# Validar versión de newman
+newman -v
+
+# Ejecutar pruebas desde cli
+newman run colection.json
+
+# Reporteria
+npm install -g newman-reporter-htmlextra
+
+# Ejecutar pruebas con reportes
+newman run colection.json --reporters "cli,htmlextra" --reporter-htmlextra-export report.html
+
+# Dependencias Python para el proyecto
+requests>=2.31.0
+pytest>=7.4.0
+python-dotenv>=1.0.0
+
+# Ejecutar pruebas localmente
+python scripts/execute-tests.py --base-url=http://localhost:8000

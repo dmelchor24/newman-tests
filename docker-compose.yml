@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postman-tests:
+    build: .
+    container_name: postman-tests
+    environment:
+      - BASE_URL=${BASE_URL:-https://endpoints-fast-api.onrender.com}
+    volumes:
+      - ./results:/app/results
+      - ./docs:/app/docs
+    command: python3 scripts/execute-tests.py

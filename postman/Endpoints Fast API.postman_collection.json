@@ -1,0 +1,303 @@
+{
+  "info": {
+    "_postman_id": "e47d359e-09b7-4121-a375-6620fc4e449e",
+    "name": "Endpoints Fast API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39585496"
+  },
+  "item": [
+    {
+      "name": "Creación de tareas - Exitoso",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Validaciones básicas\r",
+              "// Primero parsear la respuesta\r",
+              "const json = pm.response.json();\r",
+              "\r",
+              "// Status correcto\r",
+              "pm.test(\"Status code es 201 Created\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "// Tiempo de respuesta\r",
+              "pm.test(\"Respuesta menor a 800ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+              "});\r",
+              "\r",
+              "// Formato JSON\r",
+              "pm.test(\"Response es JSON\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "// Validaciones de estructura\r",
+              "// Luego hacer las validaciones con la estructura correcta\r",
+              "pm.test(\"Tiene exactamente los campos esperados\", function () {\r",
+              "    const expectedKeys = [\"id\", \"title\", \"description\", \"created_at\", \"updated_at\"];\r",
+              "    const actualKeys = Object.keys(json);\r",
+              "    pm.expect(actualKeys.sort()).to.eql(expectedKeys.sort());\r",
+              "});\r",
+              "\r",
+              "// Validación de timestamps\r",
+              "pm.test(\"Created tiene formato fecha\", function () {\r",
+              "    pm.expect(new Date(json.created_at).toString()).not.eql(\"Invalid Date\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Updated tiene formato fecha\", function () {\r",
+              "    pm.expect(new Date(json.updated_at).toString()).not.eql(\"Invalid Date\");\r",
+              "});\r",
+              "\r",
+              "// Validación de negocio\r",
+              "pm.test(\"ID es número\", function () {\r",
+              "    pm.expect(json.id).to.be.a(\"number\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Title no está vacío\", function () {\r",
+              "    pm.expect(json.title.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "// Validación de schema\r",
+              "\r",
+              "const schema = {\r",
+              "    \"type\": \"object\",\r",
+              "    \"required\": [\"id\", \"title\", \"description\", \"created_at\", \"updated_at\"],\r",
+              "    \"properties\": {\r",
+              "        \"id\": { \"type\": \"number\" },\r",
+              "        \"title\": { \"type\": \"string\" },\r",
+              "        \"description\": { \"type\": \"string\" },\r",
+              "        \"created_at\": { \"type\": \"string\" },\r",
+              "        \"updated_at\": { \"type\": \"string\" }\r",
+              "    }\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Schema válido\", function () {\r",
+              "    pm.response.to.have.jsonSchema(schema);\r",
+              "});\r",
+              "\r",
+              "// Validación de Headers\r",
+              "\r",
+              "pm.test(\"Content-Type correcto\", function () {\r",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Tarea 1\",\r\n  \"description\": \"Descripción de tarea 1\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://endpoints-fast-api.onrender.com/api/v1/tasks",
+          "protocol": "https",
+          "host": [
+            "endpoints-fast-api",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Creación de tareas - Falta title",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Error por campo obligatorio\", function () {\r",
+              "    pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"description\": \"Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://endpoints-fast-api.onrender.com/api/v1/tasks",
+          "protocol": "https",
+          "host": [
+            "endpoints-fast-api",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Creación de tareas - Title vacío",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"No permite title vacío\", function () {\r",
+              "    pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"\",\r\n  \"description\": \"Descripción de tarea 1\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://endpoints-fast-api.onrender.com/api/v1/tasks",
+          "protocol": "https",
+          "host": [
+            "endpoints-fast-api",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Creación de tareas - Tipo invalido",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Tipo inválido\", function () {\r",
+              "    pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": 123,\r\n  \"description\": \"Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://endpoints-fast-api.onrender.com/api/v1/tasks",
+          "protocol": "https",
+          "host": [
+            "endpoints-fast-api",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+name: Postman API Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL de la API'
+        required: false
+        default: 'https://endpoints-fast-api.onrender.com/'
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    - name: Instalar Newman y reporter
+      run: |
+        npm install -g newman
+        npm install -g newman-reporter-htmlextra
+    
+    - name: Verificar instalación
+      run: newman -v
+    
+    - name: Ejecutar tests de Postman
+      env:
+        BASE_URL: ${{ github.event.inputs.base_url || 'http://localhost:8000' }}
+      run: python scripts/execute-tests.py --base-url=$BASE_URL
+    
+    - name: Publicar resultados en GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        publish_branch: gh-pages
+    
+    - name: Subir reporte como artefacto
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: results/
+        retention-days: 30
