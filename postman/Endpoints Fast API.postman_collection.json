@@ -35,7 +35,7 @@
               "\r",
               "// Tiempo de respuesta\r",
               "pm.test(\"Respuesta menor a 800ms\", function () {\r",
-              "    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
               "});\r",
               "\r",
               "// Formato JSON\r",

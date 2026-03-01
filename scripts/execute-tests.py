@@ -3,6 +3,7 @@ import subprocess
 import os
 import sys
 import shutil
+import platform
 
 # Creación de timestamp
 timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -36,11 +37,19 @@ command = [
     "--reporter-htmlextra-export", report_file
 ]
 
-result = subprocess.run(command, shell=True, capture_output=True, text=True)
+# En Windows, usar shell=True para encontrar newman.cmd
+is_windows = platform.system() == "Windows"
+result = subprocess.run(command, capture_output=True, text=True, shell=is_windows)
 
 print(result.stdout)
 if result.stderr:
     print(result.stderr)
+
+# Verificar que el reporte fue generado
+if not os.path.exists(report_file):
+    print(f"❌ Error: No se generó el archivo de reporte en {report_file}")
+    print("Verifica que Newman se ejecutó correctamente")
+    sys.exit(1)
 
 # Copiar a docs/ para GitHub Pages (siempre, incluso si falló)
 shutil.copy(report_file, f"{docs_dir}/index.html")
