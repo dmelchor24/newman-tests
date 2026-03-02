@@ -38,9 +38,6 @@ env/
 htmlcov/
 *.cover
 
-# Results
-results/
-
 # OS
 .DS_Store
 Thumbs.db
