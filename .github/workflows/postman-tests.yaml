@@ -42,6 +42,7 @@ jobs:
       continue-on-error: true
       env:
         BASE_URL: ${{ github.event.inputs.base_url || 'http://localhost:8000' }}
+        TZ: America/Guatemala
       run: python scripts/execute-tests.py --base-url=$BASE_URL
     
     - name: Obtener timestamp de la ejecución
