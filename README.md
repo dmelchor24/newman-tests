@@ -18,8 +18,9 @@ Proyecto de pruebas automatizadas para una API desarrollada con Fast API usando 
 ├── docs/                       # Reportes HTML para GitHub Pages
 │   ├── index.html             # Último reporte generado
 │   └── .last_run.txt          # Timestamp de última ejecución
-├── postman/                   # Colecciones de Postman
-│   └── Endpoints Fast API.postman_collection.json
+├── postman/                   # Colecciones y configuración de Postman
+│   ├── Endpoints Fast API.postman_collection.json
+│   └── environment.json       # Variables de entorno
 ├── results/                   # Historial de resultados por timestamp
 │   └── run_YYYYMMDD_HHMMSS/
 │       └── report.html
@@ -55,9 +56,9 @@ Proyecto de pruebas automatizadas para una API desarrollada con Fast API usando 
    - Windows: `venv\Scripts\activate`
    - Linux/Mac: `source venv/bin/activate`
 
-5. Instalar dependencias Python (si las hay):
+5. Instalar dependencias Python:
    ```bash
-   pip install -r requirements.txt
+   pip install requests pytest python-dotenv
    ```
 
 ## Uso
@@ -105,16 +106,17 @@ Los reportes se generan en dos ubicaciones:
 El proyecto incluye un workflow (`postman-tests.yaml`) que se ejecuta manualmente desde la pestaña Actions.
 
 ### Características:
-- Ejecuta los tests contra una URL configurable
-- Publica automáticamente los reportes en GitHub Pages (rama `gh-pages`)
+- Ejecuta los tests contra una URL configurable (por defecto: `https://endpoints-fast-api.onrender.com`)
+- Hace commit automático de los reportes a la carpeta `docs/` en la rama principal
 - Guarda los resultados como artefactos (disponibles por 30 días)
 - Genera reportes incluso cuando los tests fallan
+- Limpia recursos Docker automáticamente
 
 ### Configuración de GitHub Pages:
 
 1. Ve a Settings → Pages
 2. Selecciona Source: "Deploy from a branch"
-3. Selecciona Branch: `gh-pages` y carpeta `/ (root)`
+3. Selecciona Branch: `main` (o tu rama principal) y carpeta `/docs`
 4. Guarda los cambios
 
 ### Ejecutar el workflow:
@@ -122,8 +124,15 @@ El proyecto incluye un workflow (`postman-tests.yaml`) que se ejecuta manualment
 1. Ve a la pestaña "Actions"
 2. Selecciona "Postman API Tests"
 3. Click en "Run workflow"
-4. Ingresa la URL base (o usa la predeterminada)
+4. (Opcional) Ingresa la URL base personalizada
 5. Click en "Run workflow"
+
+El workflow automáticamente:
+- Instala Newman y sus dependencias
+- Ejecuta los tests con el script Python
+- Guarda el reporte en `docs/index.html`
+- Hace commit de los cambios
+- Sube los resultados como artefacto
 
 ## Notas
 
