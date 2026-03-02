@@ -6,7 +6,7 @@ on:
       base_url:
         description: 'Base URL de la API'
         required: false
-        default: 'https://endpoints-fast-api.onrender.com/'
+        default: 'https://endpoints-fast-api.onrender.com'
 
 permissions:
   contents: write
