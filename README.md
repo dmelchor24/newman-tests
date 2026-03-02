@@ -2,6 +2,12 @@
 
 Proyecto de pruebas automatizadas para una API desarrollada con Fast API usando Postman/Newman.
 
+![Newman Tests](https://github.com/dmelchor24/newman-tests/actions/workflows/postman-tests.yaml/badge.svg)
+
+📊 **Reporte de la última ejecución (GitHub Pages)**  
+👉 https://dmelchor24.github.io/newman-tests
+
+
 ## Estructura del Proyecto
 
 ```
