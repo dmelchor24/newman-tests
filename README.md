@@ -11,7 +11,7 @@ Proyecto de pruebas automatizadas para una API desarrollada con Fast API usando 
 ## Estructura del Proyecto
 
 ```
-.
+newman-tests/
 ├── .github/
 │   └── workflows/
 │       └── postman-tests.yaml  # Workflow de GitHub Actions
