@@ -1,0 +1,10 @@
+{
+  "name": "API Environment",
+  "values": [
+    {
+      "key": "BASE_URL",
+      "value": "https://endpoints-fast-api.onrender.com",
+      "enabled": true
+    }
+  ]
+}
