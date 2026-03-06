@@ -20,3 +20,5 @@ python-dotenv>=1.0.0
 
 # Ejecutar pruebas localmente
 python scripts/execute-tests.py --base-url=http://localhost:8000
+
+python scripts/execute-tests.py --base-url=https://endpoints-fast-api.onrender.com

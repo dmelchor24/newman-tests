@@ -15,8 +15,8 @@ docs_dir = "docs"
 os.makedirs(results_dir, exist_ok=True)
 os.makedirs(docs_dir, exist_ok=True)
 
-# BASE_URL por defecto para pruebas en local (prioridad: CLI > ENV > default)
-base_url = os.getenv("BASE_URL", "http://localhost:8000")
+# BASE_URL por defecto (prioridad: CLI > ENV > default)
+base_url = os.getenv("BASE_URL", "https://endpoints-fast-api.onrender.com")
 
 # Leer argumento desde CLI (CI)
 for arg in sys.argv:
@@ -32,7 +32,8 @@ report_file = f"{results_dir}/report.html"
 command = [
     "newman", "run",
     "postman/Endpoints Fast API.postman_collection.json",
-    "--env-var", f"BASE_URL={base_url}",
+    "-e", "postman/environment.json",
+    "--env-var", f"base_url={base_url}",
     "--reporters", "htmlextra",
     "--reporter-htmlextra-export", report_file,
     "--timeout-request", "10000",  # 10 segundos por request

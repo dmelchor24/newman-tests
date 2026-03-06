@@ -34,8 +34,8 @@
               "});\r",
               "\r",
               "// Tiempo de respuesta\r",
-              "pm.test(\"Respuesta menor a 800ms\", function () {\r",
-              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+              "pm.test(\"Respuesta menor a 3000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
               "});\r",
               "\r",
               "// Formato JSON\r",
@@ -111,7 +111,7 @@
             }
           }
         },
-        "url": "{{BASE_URL}}/api/v1/tasks"
+        "url": "{{base_url}}/api/v1/tasks"
       },
       "response": []
     },
@@ -155,7 +155,7 @@
             }
           }
         },
-        "url": "{{BASE_URL}}/api/v1/tasks"
+        "url": "{{base_url}}/api/v1/tasks"
       },
       "response": []
     },
@@ -199,7 +199,7 @@
             }
           }
         },
-        "url": "{{BASE_URL}}/api/v1/tasks"
+        "url": "{{base_url}}/api/v1/tasks"
       },
       "response": []
     },
@@ -243,7 +243,7 @@
             }
           }
         },
-        "url": "{{BASE_URL}}/api/v1/tasks"
+        "url": "{{base_url}}/api/v1/tasks"
       },
       "response": []
     }

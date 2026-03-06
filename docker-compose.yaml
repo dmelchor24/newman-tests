@@ -5,7 +5,7 @@ services:
     build: .
     container_name: postman-tests
     environment:
-      - BASE_URL=${BASE_URL:-https://endpoints-fast-api.onrender.com}
+      - base_url=${base_url:-https://endpoints-fast-api.onrender.com}
     volumes:
       - ./results:/app/results
       - ./docs:/app/docs

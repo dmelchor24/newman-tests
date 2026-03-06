@@ -19,7 +19,7 @@ COPY docs/ ./docs/
 RUN mkdir -p results docs
 
 # Variable de entorno por defecto
-ENV BASE_URL=https://endpoints-fast-api.onrender.com
+ENV base_url=https://endpoints-fast-api.onrender.com
 
 # Comando por defecto
 CMD ["python3", "scripts/execute-tests.py"]
